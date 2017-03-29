@@ -71,15 +71,12 @@ table td div{
                 //是否显示其他的月份
                 showOthermonth: false,
                 //操作每天的表格
-                dayInfo:function(date,node){
-                    date={
+                dayInfo:{
                         starttime: '',
                         endtime: '',
                         price:"316"
-                    }
-                    return date;
-
-                }
+                },
+                operate:function(){}
               };
               var settings = jQuery.extend(defaultOptions,options || {}),
                 $body = $("body"),
@@ -208,7 +205,6 @@ table td div{
                                 month = (month+1).addZero();
                             }
                         }
-                        console.log($object.not(":has(div)"))
                         if($object.children('span').text()!=''){
                             current.val(year+"-"+month+"-"+$object.children('span').text());
                         }else{
@@ -288,8 +284,8 @@ table td div{
                         }
                           // console.log((preMonthDay));
                         var start = 1, end = 1;
-                        var starT= settings.dayInfo().starttime,
-                            enD = settings.dayInfo().endtime;
+                        var starT = settings.dayInfo.starttime,
+                            enD = settings.dayInfo.endtime;
                         for(var i=0;i<7;i++) {
                             var dayHTML = "";
                             if(i==0) {
@@ -330,7 +326,9 @@ table td div{
                         }
                         $calTable.find('tr[class!=week_head] td').each(function(v,k){
                             if(starT<=new Date(year,month,$(k).text())&&enD>=new Date(year,month,$(k).text())&&$(k).text()!=''){
-                                $(k).append('<div class="tdTip">'+settings.dayInfo().price+'</div>');
+                                $(k).append('<div class="tdTip">'+settings.dayInfo.price+'</div>');
+                                settings.operate("sd");
+
                             }
                         });
                         Calendar.tableStyle();
@@ -375,13 +373,13 @@ table td div{
 //默认皮肤
     $(".startTime").showCalendar({
         showOthermonth:false,
-        dayInfo:function(date){
-            date={
+        dayInfo:{
                 starttime: new Date(2017,1,27),
                 endtime: new Date(2017,3,5),
                 price:"316"
-            }
-            return date;
+        },
+        operate:function(res){
+            console.log(res);
         }
     });
     $(".endTimes").showCalendar({
